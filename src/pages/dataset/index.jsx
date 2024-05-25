@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Typography, Button } from "@material-tailwind/react";
 import Layout from "../../layout";
 import { useAppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
-
 const ITEMS_PER_PAGE = 5;
 
 const Dataset = () => {
@@ -25,6 +24,11 @@ const Dataset = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
+  useEffect(() => {
+    if (!dataset) {
+      navigate("/");
+    }
+  }, [dataset, navigate]);
   return (
     <Layout>
       <div className="flex justify-end mb-4 ">

@@ -21,17 +21,6 @@ export const convertToString = (data) => {
   return string;
 };
 
-const TABLE_ROWS = [
-  ["jual kopi", 5000, 0, 0, "Menengah", 49, "778,25", "4471,68"],
-  ["ferratti ferro fcm 3605", 5000, 0, 0, "Tinggi", 98, "714,31", "6605,37"],
-  ["jual kopi rube terdekat", 500, -0.9, -0.9, "Rendah", 30],
-  ["jual mesin kopi", 500, 0, 0, "Tinggi", 100, "1381,10", "7266,99"],
-  ["jual biji kopi", 500, 0, 0, "Rendah", 32, "933,90", "2711,92"],
-  ["indotara mesin kopi", 500, 0, 0, "Tinggi", 86, "933,90", "12583,91"],
-  ["kopi cleng asli", 5000, 0, 0, "Tinggi", 75, "466,95", "933,90"],
-  ["tempat jual kopi rube terdekat", 500, 0, 0, "Rendah", 8],
-];
-
 // Function to convert Competition string values to numbers
 function convertCompetitionToNumber(competitionString) {
   switch (competitionString) {
@@ -83,3 +72,31 @@ export const convertDataToNumbers = (data) => {
     return convertedItem;
   });
 };
+
+export function countClusters(data) {
+  let clusterCounts = {
+    Cluster0: 0,
+    Cluster1: 0,
+    Cluster2: 0,
+    Cluster3: 0,
+  };
+
+  data.forEach((item) => {
+    if (item.Cluster === 0) {
+      clusterCounts.Cluster0++;
+    } else if (item.Cluster === 1) {
+      clusterCounts.Cluster1++;
+    } else if (item.Cluster === 2) {
+      clusterCounts.Cluster2++;
+    } else if (item.Cluster === 3) {
+      clusterCounts.Cluster3++;
+    }
+  });
+
+  return [
+    clusterCounts.Cluster0,
+    clusterCounts.Cluster1,
+    clusterCounts.Cluster2,
+    clusterCounts.Cluster3,
+  ];
+}

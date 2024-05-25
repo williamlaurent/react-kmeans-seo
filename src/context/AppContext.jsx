@@ -7,10 +7,20 @@ export const AppProvider = ({ children }) => {
   const [dataset, setDataset] = React.useState([]);
   const [rawFile, setRawFile] = React.useState(null);
   const [result, setResult] = React.useState(null);
+  const [counts, setCounts] = React.useState(null);
 
   return (
     <AppContext.Provider
-      value={{ dataset, setDataset, rawFile, setRawFile, result, setResult }}
+      value={{
+        dataset,
+        setDataset,
+        rawFile,
+        setRawFile,
+        result,
+        setResult,
+        counts,
+        setCounts,
+      }}
     >
       {children}
     </AppContext.Provider>

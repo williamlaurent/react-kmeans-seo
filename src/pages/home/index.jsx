@@ -7,13 +7,16 @@ import { useDropzone } from "react-dropzone";
 import { useAppContext } from "../../context/AppContext";
 import axios from "axios";
 import ToastNotification from "../../components/toast/toast-notification";
+import { countClusters } from "../../utils/helper";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const [selectedFileName, setSelectedFileName] = useState("");
   const [message, setMessage] = useState(null);
+  const [results, setResults] = useState([]);
 
-  const { setDataset, setRawFile, rawFile, setResult } = useAppContext();
+  const { setDataset, setRawFile, rawFile, setResult, dataset, setCounts } =
+    useAppContext();
 
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -74,17 +77,14 @@ const HomePage = () => {
     const toastId = ToastNotification.loading("Mengunggah file..."); // Store the returned toast ID
 
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:5000/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post("http://127.0.0.1:5000/cluster_data", {
+        data: dataset,
+      });
       console.log(response.data);
+      setResults(response.data);
       setResult(response.data);
+      setCounts(countClusters(response.data));
+      console.log(countClusters(response.data));
       ToastNotification.dismiss(toastId);
       ToastNotification.success("File terunggah");
       navigate("/dataset");
@@ -145,6 +145,33 @@ const HomePage = () => {
             Lihat Dataset
           </Button>
         )}
+      </div>
+      <div>
+        {results.length > 0 &&
+          results.map((item, index) => (
+            <div key={index}>
+              <h2>{item.Keyword}</h2>
+              <p>Avg. monthly searches: {item["Avg. monthly searches"]}</p>
+              <p>Perubahan tiga bulan: {item["Perubahan tiga bulan"]}</p>
+              <p>
+                Perubahan tahun ke tahun: {item["Perubahan tahun ke tahun"]}
+              </p>
+              <p>Competition: {item.Competition}</p>
+              <p>
+                Competition (indexed value):{" "}
+                {item["Competition (indexed value)"]}
+              </p>
+              <p>
+                Top of page bid (low range):{" "}
+                {item["Top of page bid (low range)"]}
+              </p>
+              <p>
+                Top of page bid (high range):{" "}
+                {item["Top of page bid (high range)"]}
+              </p>
+              <p>Cluster: {item.Cluster}</p>
+            </div>
+          ))}
       </div>
     </Layout>
   );

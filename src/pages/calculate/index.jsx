@@ -17,15 +17,17 @@ const Calculate = () => {
   const handleAlwaysOpen = () => setAlwaysOpen((cur) => !cur);
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
 
-  const { result } = useAppContext();
+  const { result, counts } = useAppContext();
 
   const handleClick = () => {
     navigate("/cluster");
   };
 
   useEffect(() => {
-    console.log(result);
-  }, []);
+    if (!result || !counts) {
+      navigate("/");
+    }
+  }, [result, counts, navigate]);
 
   return (
     <Layout>
@@ -68,7 +70,7 @@ const Calculate = () => {
         </Accordion>
       </div>
       <div className="shadow">
-        <BarChart data={[0, 10, 20, 30]} />
+        <BarChart data={counts} />
       </div>
     </Layout>
   );

@@ -10,13 +10,11 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="*" element={<NotFound />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/dataset" element={<Dataset />} />
         <Route path="/cluster" element={<Cluster />} />
         <Route path="/calculate" element={<Calculate />} />
       </Routes>
-
       <Toaster />
     </div>
   );
