@@ -5,21 +5,24 @@ const AppContext = React.createContext();
 
 export const AppProvider = ({ children }) => {
   const [dataset, setDataset] = React.useState([]);
-  const [rawFile, setRawFile] = React.useState(null);
   const [result, setResult] = React.useState(null);
   const [counts, setCounts] = React.useState(null);
+  const [silhouetteScore, setSilhouetteScore] = React.useState(null);
+  const [iterations, setIterations] = React.useState(null);
 
   return (
     <AppContext.Provider
       value={{
         dataset,
         setDataset,
-        rawFile,
-        setRawFile,
         result,
         setResult,
         counts,
         setCounts,
+        silhouetteScore,
+        setSilhouetteScore,
+        setIterations,
+        iterations,
       }}
     >
       {children}

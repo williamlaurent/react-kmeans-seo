@@ -17,17 +17,17 @@ const Calculate = () => {
   const handleAlwaysOpen = () => setAlwaysOpen((cur) => !cur);
   const handleOpen = (value) => setOpen(open === value ? 0 : value);
 
-  const { result, counts } = useAppContext();
+  const { result, counts, silhouetteScore, iterations } = useAppContext();
 
   const handleClick = () => {
     navigate("/cluster");
   };
 
   useEffect(() => {
-    if (!result || !counts) {
+    if (!result || !counts || !silhouetteScore) {
       navigate("/");
     }
-  }, [result, counts, navigate]);
+  }, [result, counts, navigate, silhouetteScore]);
 
   return (
     <Layout>
@@ -37,36 +37,29 @@ const Calculate = () => {
         </Button>
       </div>
       <div className="my-8">
-        <Accordion open={alwaysOpen}>
+        {/* <Accordion open={alwaysOpen}>
           <AccordionHeader onClick={handleAlwaysOpen}>
             Preprocessing
           </AccordionHeader>
           <AccordionBody>
-            {/* Meaning Preprocessing */}
             Preprocessing is the process of transforming raw data into a format
             that can be used in machine learning algorithms.
           </AccordionBody>
-        </Accordion>
+        </Accordion> */}
         <Accordion open={open === 1}>
           <AccordionHeader onClick={() => handleOpen(1)}>
             Kmeans
           </AccordionHeader>
           <AccordionBody>
-            K-means clustering is a method of vector quantization, originally
-            from signal processing, that aims to partition n observations into k
-            clusters in which each observation belongs to the cluster with the
-            nearest mean (cluster centers or cluster centroid), serving as a
-            prototype of the cluster.
+            <p>Jumlah K : 4</p>
+            <p>Jumlah Iterasi : {iterations}</p>
           </AccordionBody>
         </Accordion>
         <Accordion open={open === 2}>
           <AccordionHeader onClick={() => handleOpen(2)}>
-            Sum Squared Error
+            Silhouette Score
           </AccordionHeader>
-          <AccordionBody>
-            The sum of squared distances between each observation and its
-            cluster centroid.
-          </AccordionBody>
+          <AccordionBody>{silhouetteScore}</AccordionBody>
         </Accordion>
       </div>
       <div className="shadow">
